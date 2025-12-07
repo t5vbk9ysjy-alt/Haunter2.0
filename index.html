@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: #111;
+            border-radius: 12px;
+            padding: 40px;
+            border: 1px solid #222;
+        }
+        h1 {
+            color: #00ff88;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .subtitle {
+            color: #888;
+            margin-bottom: 40px;
+            font-size: 0.95em;
+        }
+        .info-grid {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .info-item {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 3px solid #00ff88;
+        }
+        .info-label {
+            color: #00ff88;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .info-value {
+            color: #fff;
+            font-size: 1.1em;
+        }
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+        .reveal {
+            background: linear-gradient(135deg, #1a3a1a 0%, #0d1f0d 100%);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #00ff88;
+            margin-top: 40px;
+        }
+        .reveal h2 {
+            color: #00ff88;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .reveal p {
+            color: #ccc;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+        .reveal ul {
+            list-style: none;
+            margin: 20px 0;
+        }
+        .reveal li {
+            padding: 8px 0;
+            color: #aaa;
+            padding-left: 20px;
+            position: relative;
+        }
+        .reveal li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #00ff88;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #222;
+            color: #666;
+            font-size: 0.85em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Information Collected</h1>
+        <p class="subtitle">From opening this file</p>
+
+```
+    <div class="info-grid">
+        <div class="info-item">
+            <div class="info-label">IP Address</div>
+            <div class="info-value" id="ip"><span class="loading">Retrieving...</span></div>
+        </div>
+
+        <div class="info-item">
+            <div class="info-label">Location</div>
+            <div class="info-value" id="location"><span class="loading">Retrieving...</span></div>
+        </div>
+
+        <div class="info-item">
+            <div class="info-label">ISP</div>
+            <div class="info-value" id="isp"><span class="loading">Retrieving...</span></div>
+        </div>
+
+        <div class="info-item">
+            <div class="info-label">Device</div>
+            <div class="info-value" id="device"></div>
+        </div>
+
+        <div class="info-item">
+            <div class="info-label">Browser</div>
+            <div class="info-value" id="browser"></div>
+        </div>
+
+        <div class="info-item">
+            <div class="info-label">Screen</div>
+            <div class="info-value" id="screen"></div>
+        </div>
+
+        <div class="info-item">
+            <div class="info-label">Timezone</div>
+            <div class="info-value" id="timezone"></div>
+        </div>
+
+        <div class="info-item">
+            <div class="info-label">Languages</div>
+            <div class="info-value" id="languages"></div>
+        </div>
+    </div>
+
+    <div class="reveal">
+        <h2>This was completely harmless.</h2>
+        <p>But you just opened a file from a shared drive without knowing what it actually was.</p>
+        <p>This HTML file only collected basic information that literally any website can see. Nothing was saved or sent anywhere.</p>
+        <p><strong>But if this had been malicious code with proper permissions:</strong></p>
+        <ul>
+            <li>Your files could have been accessed or encrypted</li>
+            <li>Credentials could have been stolen</li>
+            <li>Keyloggers could have been installed</li>
+            <li>Your webcam could have been accessed</li>
+        </ul>
+        <p style="margin-top: 25px; color: #00ff88;"><strong>Be careful what you open from shared locations.</strong></p>
+    </div>
+
+    <div class="footer">
+        Security awareness demo · No data was collected or transmitted
+    </div>
+</div>
+
+<script>
+    // Device detection
+    function getDeviceInfo() {
+        const ua = navigator.userAgent;
+        let device = 'Desktop';
+        
+        if (/Mobile|Android|iPhone|iPad|iPod/.test(ua)) {
+            if (/iPad/.test(ua)) device = 'iPad';
+            else if (/iPhone/.test(ua)) device = 'iPhone';
+            else if (/Android/.test(ua)) device = 'Android Device';
+            else device = 'Mobile Device';
+        } else {
+            if (/Mac/.test(ua)) device = 'Mac';
+            else if (/Win/.test(ua)) device = 'Windows PC';
+            else if (/Linux/.test(ua)) device = 'Linux PC';
+        }
+        
+        return device;
+    }
+
+    // Browser detection
+    function getBrowser() {
+        const ua = navigator.userAgent;
+        let browser = 'Unknown Browser';
+        
+        if (ua.includes('Firefox/')) browser = 'Firefox';
+        else if (ua.includes('Edg/')) browser = 'Microsoft Edge';
+        else if (ua.includes('Chrome/') && !ua.includes('Edg/')) browser = 'Chrome';
+        else if (ua.includes('Safari/') && !ua.includes('Chrome/')) browser = 'Safari';
+        else if (ua.includes('Opera/') || ua.includes('OPR/')) browser = 'Opera';
+        
+        return browser;
+    }
+
+    // Set immediate info
+    document.getElementById('device').textContent = getDeviceInfo();
+    document.getElementById('browser').textContent = getBrowser();
+    document.getElementById('screen').textContent = `${screen.width} × ${screen.height}`;
+    document.getElementById('timezone').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    document.getElementById('languages').textContent = navigator.languages.join(', ');
+
+    // Fetch IP and location info
+    async function getIPInfo() {
+        try {
+            const response = await fetch('https://ipapi.co/json/');
+            const data = await response.json();
+            
+            if (data.ip) {
+                document.getElementById('ip').textContent = data.ip;
+                
+                const locationParts = [data.city, data.region, data.country_name].filter(Boolean);
+                document.getElementById('location').textContent = locationParts.join(', ') || 'Unknown';
+                
+                document.getElementById('isp').textContent = data.org || 'Unknown';
+            } else {
+                throw new Error('No data');
+            }
+        } catch (error) {
+            // Fallback to alternative API
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                document.getElementById('ip').textContent = data.ip || 'Unable to detect';
+                document.getElementById('location').textContent = 'Geographic data unavailable';
+                document.getElementById('isp').textContent = 'ISP data unavailable';
+            } catch {
+                document.getElementById('ip').textContent = 'Unable to detect';
+                document.getElementById('location').textContent = 'Unable to detect';
+                document.getElementById('isp').textContent = 'Unable to detect';
+            }
+        }
+    }
+
+    getIPInfo();
+</script>
+```
+
+</body>
+</html>
